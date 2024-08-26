@@ -26,11 +26,6 @@ packages/cisco-nso-saml2-auth:
 	(cd packages/ ; git clone https://github.com/NSO-developer/nso-sso-duo-integration-package.git)
 	cp -a packages/nso-sso-duo-integration-package NSO-vol/NSO1/run/$@
 
-#packages/cisco-nso-saml2-auth:
-	#docker exec nso-dev bash -c "cp -a $(PKG_DIR) /nso1/run/$@"
-	#Workaround - adding fixed package
-	#cp -a packages/nso-sso-duo-integration---cisco-nso-saml2-auth NSO-vol/NSO1/run/$@
-
 build:
 	docker load -i ./images/nso-${VER}.container-image-dev.linux.${ARCH}.tar.gz
 	docker load -i ./images/nso-${VER}.container-image-prod.linux.${ARCH}.tar.gz
@@ -75,7 +70,3 @@ cli-c:
 
 cli-j:
 	docker exec -it nso1 ncs_cli -J -u admin
-
-update_package:
-	cp -a packages/nso-sso-duo-integration---cisco-nso-saml2-auth/scripts/* NSO-vol/NSO1/run/packages/cisco-nso-saml2-auth/scripts/. 
-	docker exec nso1 bash -c 'echo "packages reload" | ncs_cli -Cu admin'
