@@ -1,0 +1,6 @@
+defusedxml
+iso8601
+lxml
+pyopenssl
+signxml
+xmlsec

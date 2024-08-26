@@ -1,0 +1,11 @@
+images/*
+!images/.gitkeep
+
+NSO-log-vol/*
+!NSO-log-vol/.gitkeep
+
+NSO-vol/*
+!NSO-vol/.gitkeep
+
+packages/*
+!packages/.gitkeep

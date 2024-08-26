@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <saml2-auth xmlns="http://tail-f.com/ns/cisco-nso-saml2-auth">
+    <identity-provider>
+      <entity-id>@DUO_METAURL@</entity-id>
+      <metadata-url>@DUO_METAURL@</metadata-url>
+    </identity-provider>
+    <service-provider>
+      <base-url>@NSO_URL@/sso</base-url>
+      <entity-id>@NSO_URL@/sso/saml/metadata/</entity-id>
+      <metadata>&lt;?xml version="1.0"?&gt;
+&lt;md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="@NSO_URL@/sso/saml/metadata/"&gt;
+    &lt;md:SPSSODescriptor AuthnRequestsSigned="true" WantAssertionsSigned="true" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"&gt;
+        &lt;md:KeyDescriptor use="signing"&gt;
+            &lt;ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#"&gt;
+                &lt;ds:X509Data&gt;@SP_CERTIFICATE@&lt;/ds:X509Data&gt;
+            &lt;/ds:KeyInfo&gt;
+        &lt;/md:KeyDescriptor&gt;
+        &lt;md:KeyDescriptor use="encryption"&gt;
+            &lt;ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#"&gt;
+                &lt;ds:X509Data&gt;@SP_CERTIFICATE@&lt;/ds:X509Data&gt;
+            &lt;/ds:KeyInfo&gt;
+        &lt;/md:KeyDescriptor&gt;        
+        &lt;md:NameIDFormat&gt;&lt;/md:NameIDFormat&gt;
+        &lt;md:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="@NSO_URL@/sso/saml/logout/"/&gt;
+        &lt;md:AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="@NSO_URL@/sso/saml/acs/" index="1"/&gt;
+    &lt;/md:SPSSODescriptor&gt;
+&lt;/md:EntityDescriptor&gt;</metadata>
+      <signature-algorithm>rsa-sha256</signature-algorithm>
+      <private-key-signing>@SP_PRIVKEY@</private-key-signing>
+       <private-key-encryption>@SP_PRIVKEY@</private-key-encryption>
+    </service-provider>
+  </saml2-auth>
+  <nacm xmlns="urn:ietf:params:xml:ns:yang:ietf-netconf-acm">
+    <groups>
+      <group>
+        <name>admin</name>
+        <gid xmlns="http://tail-f.com/yang/acm">1001</gid>
+      </group>
+      <group>
+        <name>oper</name>
+        <gid xmlns="http://tail-f.com/yang/acm">1001</gid>
+      </group>
+      <group>
+        <name>ncsadmin</name>
+        <user-name>admin1</user-name>
+      </group>
+    </groups>
+  </nacm>
+  <aaa xmlns="http://tail-f.com/ns/aaa/1.1">
+    <authentication>
+      <users>
+        <user>
+          <name>admin1</name>
+          <uid>1001</uid>
+          <gid>1001</gid>
+          <password>admin</password>
+          <ssh_keydir>/var/ncs/homes/admin/.ssh</ssh_keydir>
+          <homedir>/var/ncs/homes/admin</homedir>
+        </user>
+      </users>
+    </authentication>
+  </aaa>
+</config>
