@@ -52,7 +52,7 @@ Second one is NSO web interface public access URL(NSO_URL). This URL cannot be l
 Now we can get started with the NSO configuration through our PoC code here.  
 
 ## Tested Enviorment
-NSO Version Requirment: >=6.3.0
+NSO Version: >=6.3.0
 
 ## Use the PoC code.
 1. For this demo we included the NSO 6.3.1 container images in ./images. To start the demo:
