@@ -2,7 +2,7 @@
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/NSO-developer/nso-sso-duo-integration---containerzed-nso)  
 This repository is a demo code for the integration of DUO and NSO SSO with NSO Containerized NSO installation. This example is setup with Assertion Encryption/Decryption. You may also find a repository with native installation version below.
 * Native Example: https://github.com/NSO-developer/nso-sso-duo-integration---containerzed-nso 
-* Duo Integration Package: https://github.com/NSO-developer/nso-sso-duo-integration-package 
+* SAML2 authentication package: supplied by the local NSO installation at `$NCS_DIR/packages/auth/cisco-nso-saml2-auth/`; no Git clone is required.
 
 ## Prerequisites
 The following must be done before using the repository  
@@ -56,8 +56,9 @@ Now we can get started with the NSO configuration through our PoC code here.
 NSO Version: >=6.3.0
 
 ## Use the PoC code.
-1. For this demo we included the NSO 6.3.1 container images in ./images. To start the demo:
+1. For this demo we included the NSO 6.3.1 container images in ./images. Set `NCS_DIR` to a local NSO installation containing `packages/auth/cisco-nso-saml2-auth/`. The Makefile copies this package into `NSO-vol/NSO1/run/packages/cisco-nso-saml2-auth` before compiling it. To start the demo:
 ```
+export NCS_DIR=/opt/ncs/ncs-6.3.1
 DUO_URL="<DUO_URL>" NSO_URL="<NSO_URL>" make clean all
 ```
 2. Test the setup by enter your NSO_URL in the browser.

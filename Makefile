@@ -1,7 +1,7 @@
 VER=6.3.1
 ENABLED_SERVICES= BUILD-NSO-PKGS NSO-1
 ARCH=arm64
-PKG_DIR =/opt/ncs/ncs-${VER}/packages/auth/cisco-nso-saml2-auth
+PKG_DIR =$(NCS_DIR)/packages/auth/cisco-nso-saml2-auth
 
 .PHONY: all
 all: build start saml2_pkg
@@ -22,9 +22,8 @@ saml2_pkg: packages/cisco-nso-saml2-auth \
 			docker exec nso1 ncs_load -l -m nso/run/cisco-nso-saml2-auth.xml
 
 packages/cisco-nso-saml2-auth:
-	ls packages/nso-sso-duo-integration-package/ > /dev/null 2>&1 || \
-	(cd packages/ ; git clone https://github.com/NSO-developer/nso-sso-duo-integration-package.git)
-	cp -a packages/nso-sso-duo-integration-package NSO-vol/NSO1/run/$@
+	@test -n "$(NCS_DIR)" || { echo "Set NCS_DIR to your local NSO installation directory" >&2; exit 1; }
+	cp -a "$(PKG_DIR)" "NSO-vol/NSO1/run/$@"
 
 build:
 	docker load -i ./images/nso-${VER}.container-image-dev.linux.${ARCH}.tar.gz
