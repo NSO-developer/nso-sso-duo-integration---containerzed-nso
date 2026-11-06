@@ -1,7 +1,7 @@
 VER=6.3.1
 ENABLED_SERVICES= BUILD-NSO-PKGS NSO-1
 ARCH=arm64
-PKG_DIR =$(NCS_DIR)/packages/auth/cisco-nso-saml2-auth
+PKG_DIR ?= $(NCS_DIR)/packages/auth/cisco-nso-saml2-auth
 
 .PHONY: all
 all: build start saml2_pkg
@@ -15,14 +15,14 @@ clean: deep_clean
 	rm -rf keys  __pycache__ || echo "No keys to remove"
 
 saml2_pkg: packages/cisco-nso-saml2-auth \
-			compile_packages 
+			compile_packages aszazA
 			docker exec nso1 bash -c 'echo "packages reload" | ncs_cli -Cu admin'
 			./keys.gen
 			./gen-smal2-auth-xml.sh $(DUO_URL) $(NSO_URL)
 			docker exec nso1 ncs_load -l -m nso/run/cisco-nso-saml2-auth.xml
 
 packages/cisco-nso-saml2-auth:
-	@test -n "$(NCS_DIR)" || { echo "Set NCS_DIR to your local NSO installation directory" >&2; exit 1; }
+	@test -d "$(PKG_DIR)" || { echo "Set PKG_DIR to the location of cisco-nso-saml2-auth, or set NCS_DIR to your local NSO installation directory" >&2; exit 1; }
 	cp -a "$(PKG_DIR)" "NSO-vol/NSO1/run/$@"
 
 build:

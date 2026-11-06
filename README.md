@@ -2,7 +2,7 @@
 [![Ask DeepWiki](https://img.shields.io/badge/Ask-DeepWiki-blue)](https://deepwiki.com/NSO-developer/nso-sso-duo-integration---native)    
 This repository is a demo code for the integration of DUO and NSO SSO with NSO Containerized NSO installation. This example is setup with Assertion Encryption/Decryption. You may also find a repository with native installation version below.
 * Native Example: https://github.com/NSO-developer/nso-sso-duo-integration---containerzed-nso 
-* SAML2 authentication package: supplied by the local NSO installation at `$NCS_DIR/packages/auth/cisco-nso-saml2-auth/`; no Git clone is required.
+* SAML2 authentication package: set `PKG_DIR` to the location of `cisco-nso-saml2-auth`. It defaults to `$(NCS_DIR)/packages/auth/cisco-nso-saml2-auth`
 
 ## Prerequisites
 The following must be done before using the repository  
@@ -56,10 +56,9 @@ Now we can get started with the NSO configuration through our PoC code here.
 NSO Version: >=6.3.0
 
 ## Use the PoC code.
-1. For this demo we included the NSO 6.3.1 container images in ./images. Set `NCS_DIR` to a local NSO installation containing `packages/auth/cisco-nso-saml2-auth/`. The Makefile copies this package into `NSO-vol/NSO1/run/packages/cisco-nso-saml2-auth` before compiling it. To start the demo:
+1. For this demo we included the NSO 6.3.1 container images in ./images. Set `PKG_DIR` to the directory containing the `cisco-nso-saml2-auth` package itself. You can pass it as a make parameter or export it as an environment variable. If omitted, it defaults to `$(NCS_DIR)/packages/auth/cisco-nso-saml2-auth`, so set `NCS_DIR` to your local NSO installation to use that default. The Makefile copies this package into `NSO-vol/NSO1/run/packages/cisco-nso-saml2-auth` before compiling it. To start the demo with an explicit package location:
 ```
-export NCS_DIR=/opt/ncs/ncs-6.3.1
-DUO_URL="<DUO_URL>" NSO_URL="<NSO_URL>" make clean all
+DUO_URL="<DUO_URL>" NSO_URL="<NSO_URL>" make PKG_DIR=/path/to/cisco-nso-saml2-auth clean all
 ```
 2. Test the setup by enter your NSO_URL in the browser.
 3. Click on cisco-nso-saml2-auth to enter the SAML SSO phase.
